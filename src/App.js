@@ -8,6 +8,10 @@ function App() {
   const [todosPerPage, setTodosPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    fetchAPI();
+  }, []);
+
   const numOfTotalPages = Math.ceil(todos.length / todosPerPage);
   const pages = [...Array(numOfTotalPages + 1).keys()].slice(1);
 
@@ -23,31 +27,44 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  useEffect(() => {
-    fetchAPI();
-  }, []);
+  const prevPageHandler = () => {
+    if (currentPage !== 1) setCurrentPage(currentPage - 1);
+  };
 
-  const prevPageHandler = () => {};
-
-  const nextPageHandler = () => {};
+  const nextPageHandler = () => {
+    if (currentPage !== numOfTotalPages) setCurrentPage(currentPage + 1);
+  };
 
   return (
-    <div>
-      {visibleTodos.map((todo) => (
-        <p key={todo.id}>{todo.title}</p>
-      ))}
-      <span onClick={prevPageHandler}>Prev</span>
-      <p>
-        {pages.map((page) => (
-          <span
-            key={page}
-            onClick={() => setCurrentPage(page)}
-            className={`${currentPage === page ? "active" : ""}`}
-          >{`${page} | `}</span>
+    <>
+      <select onChange={(e) => setTodosPerPage(e.target.value)}>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
+      <div>
+        {visibleTodos.map((todo) => (
+          <p key={todo.id}>{todo.title}</p>
         ))}
-      </p>
-      <span onClick={nextPageHandler}>Next</span>
-    </div>
+        <span className="handler" onClick={prevPageHandler}>
+          Prev
+        </span>
+        <p>
+          {pages.map((page) => (
+            <span
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`${currentPage === page ? "active" : ""}`}
+            >{`${page} | `}</span>
+          ))}
+        </p>
+        <span className="handler" onClick={nextPageHandler}>
+          Next
+        </span>
+      </div>
+    </>
   );
 }
 

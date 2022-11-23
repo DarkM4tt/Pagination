@@ -1,3 +1,8 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
@@ -6,4 +11,20 @@
 .active {
   color: rgb(10, 107, 211);
   font-size: 24px;
+}
+
+select {
+  padding: 5px;
+  margin-top: 20px;
+  margin-left: 180px;
+}
+
+div p {
+  cursor: pointer;
+}
+
+div .handler {
+  color: rgb(10, 148, 234);
+  text-decoration: underline;
+  cursor: pointer;
 }
