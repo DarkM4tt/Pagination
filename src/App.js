@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [todos, setTodos] = useState([]);
+  const apiLink = "https://jsonplaceholder.typicode.com/todos";
+
+  async function fetchAPI() {
+    await fetch(apiLink)
+      .then((res) => res.json())
+      .then((res) => setTodos(res))
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    fetchAPI();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {todos.map((todo) => (
+        <p key={todo.id}>{todo.title}</p>
+      ))}
     </div>
   );
 }
